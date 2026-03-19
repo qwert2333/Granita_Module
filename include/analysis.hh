@@ -1,0 +1,52 @@
+#ifndef RUN_HH
+#define RUN_HH
+
+#include "G4UserRunAction.hh"
+#include "G4Run.hh"
+//#include "g4root.hh"
+#include "G4AnalysisManager.hh" 
+#include "generator.hh"
+#include "TFile.h"
+#include "TTree.h"
+
+class MyRunAction : public G4UserRunAction
+{
+public:
+    MyRunAction(MyPrimaryGenerator *PG);
+    MyRunAction();
+    ~MyRunAction();
+    
+    virtual void BeginOfRunAction(const G4Run*);
+    virtual void EndOfRunAction(const G4Run*);
+    void ResetEventData();
+
+    void Fill_Edep_Layer(G4double data) { Edep_Layer.push_back(data); }
+    void Fill_Nph_Cherenkov_Layer(G4int data) { Nph_Cherenkov_Layer.push_back(data); }
+    void Fill_Nph_Scint_Layer(G4int data) { Nph_Scint_Layer.push_back(data); }
+    void Fill_vecCellID(G4int data) { vecCellID.push_back(data); }
+    void Fill_vecEdep(G4double data) { vecEdep.push_back(data); }
+    void Fill_vecNChren(G4int data) { vecNChren.push_back(data); }
+    void Fill_vecNScint(G4int data) { vecNScint.push_back(data); }
+
+private: 
+    MyPrimaryGenerator *fPrimaryGen;
+    //TFile *fileRun;
+    //TTree *treeEvt;
+
+    G4int eventID;
+    G4double MCtruth_energy;
+    G4double EdepSum;
+    G4int Nph_Cherenkov;
+    G4int Nph_Scint;
+    
+    std::vector<G4double> Edep_Layer;
+    std::vector<G4int> Nph_Cherenkov_Layer;
+    std::vector<G4int> Nph_Scint_Layer;
+    std::vector<G4int> vecCellID;
+    std::vector<G4double> vecEdep;
+    std::vector<G4int> vecNChren;
+    std::vector<G4int> vecNScint;
+
+};
+
+#endif

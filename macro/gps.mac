@@ -1,0 +1,11 @@
+/gps/particle anti_proton
+/gps/direction 0 0 1
+#/gps/time 100 ns
+/gps/pos/type Plane #Beam
+/gps/pos/shape Circle
+/gps/pos/centre 0 0 -30 cm
+/gps/pos/radius 2 cm
+/gps/pos/sigma_r 1 cm
+/gps/ene/type Mono #Gauss
+/gps/ene/mono 6 keV
+

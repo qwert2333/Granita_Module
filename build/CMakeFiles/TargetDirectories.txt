@@ -1,0 +1,4 @@
+/Users/mirogalaxy/Applications/Geant4/example_Fangyi/build/CMakeFiles/main.dir
+/Users/mirogalaxy/Applications/Geant4/example_Fangyi/build/CMakeFiles/Simulation.dir
+/Users/mirogalaxy/Applications/Geant4/example_Fangyi/build/CMakeFiles/edit_cache.dir
+/Users/mirogalaxy/Applications/Geant4/example_Fangyi/build/CMakeFiles/rebuild_cache.dir
