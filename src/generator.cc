@@ -4,7 +4,7 @@
 
 // Local parameters. 
 //G4double xposition = -100.*mm; // -100.
-G4double xposition = -1.*m; 
+G4double xposition = -0.5*m; 
 const double twopi  = 2 * M_PI;
 
 
@@ -30,13 +30,15 @@ MyPrimaryGenerator::~MyPrimaryGenerator()
 // Called by SetUserAction(generator) in action.cc
 void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
 {
-    G4ThreeVector pos = G4ThreeVector(0., 0., xposition);
+    G4ThreeVector pos = G4ThreeVector(0, 0, xposition);
     fParticleGun->SetParticlePosition(pos);
 
-    G4ThreeVector dir = G4ThreeVector(0., 0., 1.); 
-    fParticleGun->SetParticleMomentumDirection(dir);    // for G4Gun
     const int numberOfPrimaries = 1;
     for (int i = 0; i < numberOfPrimaries; i++){
+        G4double xdir = G4RandGauss::shoot(0., 0.015);
+        G4double ydir = G4RandGauss::shoot(0., 0.015);
+        G4ThreeVector dir = G4ThreeVector(xdir, ydir, 1.); 
+        fParticleGun->SetParticleMomentumDirection(dir);    // for G4Gun
         fParticleGun->GeneratePrimaryVertex(anEvent);
     }
 }

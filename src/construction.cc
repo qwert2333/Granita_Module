@@ -49,15 +49,52 @@ MyDetectorConstruction::MyDetectorConstruction() : G4VUserDetectorConstruction()
 MyDetectorConstruction::~MyDetectorConstruction(){}
 
 
+
+// =================================================================================
+//
+// ======                   Define dimensions
+//
+// =================================================================================
+
+
+void MyDetectorConstruction::DefineDim()
+{
+    worldSize = 200 * cm;
+    xtal_x = 5*cm;
+    xtal_y = 5*cm;
+    xtal_half_length = 15*cm;
+    fiber_Radius = 0.5*mm;
+    fiber_lendth = 2.*xtal_half_length + 1.*cm; //1 cm interface
+    cladding_thick = 0.3*mm;
+    fiber_pitch = 15*mm;
+    fiber_nx = 6;
+    fiber_ny = 6;
+    nseg_z = 25;
+
+    pmtRadius = 80.*mm;
+    pmtThickness = 1.*mm;
+
+    physFiberClad = new G4VPhysicalVolume*[fiber_nx*fiber_ny];
+    physFiberCore = new G4VPhysicalVolume*[fiber_nx*fiber_ny];
+    physCrystal = new G4VPhysicalVolume*[nseg_z];
+    for (G4int i = 0; i < fiber_nx*fiber_ny; i++) {
+        physFiberClad[i] = nullptr;
+        physFiberCore[i] = nullptr;
+    }
+    for(G4int i=0; i<nseg_z; i++){
+      physCrystal[i] = nullptr;
+    }
+
+}
+
+
+
 // =================================================================================
 //
 // ======                   Define materials
 //
 // =================================================================================
  
-
-
-
 G4Material* MyDetectorConstruction::MakeBGO() {
   // --- elements ---
   G4Element* elBi = new G4Element("Bismuth", "Bi", 83., 208.9804*g/mole);
@@ -389,35 +426,6 @@ void MyDetectorConstruction::DefineMaterials()
 
 }
 
-void MyDetectorConstruction::DefineDim()
-{
-    worldSize = 200 * cm;
-    xtal_x = 1.5*cm;
-    xtal_y = 1.5*cm; 
-    xtal_half_length = 20*cm;
-    fiber_Radius = 0.5*mm;
-    fiber_lendth = 2.*xtal_half_length + 1.*cm; //1 cm interface
-    cladding_thick = 0.3*mm;
-    fiber_pitch = 10*mm;
-    fiber_nx = 3;
-    fiber_ny = 3;
-    nseg_z = 4;
-
-    pmtRadius = 80.*mm;
-    pmtThickness = 1.*mm;
-
-    physFiberClad = new G4VPhysicalVolume*[fiber_nx*fiber_ny];
-    physFiberCore = new G4VPhysicalVolume*[fiber_nx*fiber_ny];
-    physCrystal = new G4VPhysicalVolume*[nseg_z];
-    for (G4int i = 0; i < fiber_nx*fiber_ny; i++) {
-        physFiberClad[i] = nullptr;
-        physFiberCore[i] = nullptr;
-    }
-    for(G4int i=0; i<nseg_z; i++){
-      physCrystal[i] = nullptr;
-    }
-
-}
 
 
 // Construct detector geometry
@@ -588,9 +596,17 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 void MyDetectorConstruction::ConstructSDandField()
 {
     auto sdManager = G4SDManager::GetSDMpointer();
-    MySensitiveDetector *sensDet = new MySensitiveDetector("GrainModule");
-    sdManager->AddNewDetector(sensDet);
-    logicCrystal->SetSensitiveDetector(sensDet);
+    MySensitiveDetector *sensDet_crystal = new MySensitiveDetector("CrystalModule");
+    sdManager->AddNewDetector(sensDet_crystal);
+    logicCrystal->SetSensitiveDetector(sensDet_crystal);
+
+    MySensitiveDetector *sensDet_fibercore = new MySensitiveDetector("FiberCore");
+    sdManager->AddNewDetector(sensDet_fibercore);
+    logicCore->SetSensitiveDetector(sensDet_fibercore);
+
+    MySensitiveDetector *sensDet_fiberclad = new MySensitiveDetector("FiberCladding");
+    sdManager->AddNewDetector(sensDet_fiberclad);
+    logicClad->SetSensitiveDetector(sensDet_fiberclad);    
 
 }
 

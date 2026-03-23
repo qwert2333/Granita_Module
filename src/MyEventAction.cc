@@ -54,14 +54,18 @@ void MyEventAction::BeginOfEventAction(const G4Event* event) {
   ResetEventData();
   const MyDetectorConstruction *detector = static_cast<const MyDetectorConstruction *>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-  if (fHitCollID < 0)
+  if ( fHitCollID[0]<0 )
   {
       auto sdManager = G4SDManager::GetSDMpointer();
-      fHitCollID = sdManager->GetCollectionID("GrainModule/hits");
+      fHitCollID[0] = sdManager->GetCollectionID("CrystalModule_hits");
+      fHitCollID[1] = sdManager->GetCollectionID("FiberCore_hits");
+      fHitCollID[2] = sdManager->GetCollectionID("FiberCladding_hits");
   }
 
   if(!fRunAction)
     fRunAction = static_cast<MyRunAction *>(const_cast<G4UserRunAction *>(G4RunManager::GetRunManager()->GetUserRunAction()));
+  fRunAction->ResetEventData();
+
 }
 
 
@@ -83,24 +87,48 @@ void MyEventAction::EndOfEventAction(const G4Event* event)
     G4cout << ">>> Event: " << eventID << G4endl;
   }
 
+  // G4cout << fHitCollID[0] << '\t' << fHitCollID[1] << '\t' << fHitCollID[2] << G4endl;
+
   //Get hit info
   G4HCofThisEvent *hitsCE = event->GetHCofThisEvent();
-  EcalHitsCollection *HitCollection = nullptr;
-  if (hitsCE)
-    HitCollection = (EcalHitsCollection *)(hitsCE->GetHC(fHitCollID));
+  EcalHitsCollection *CrystalHitCollection = nullptr;
+  EcalHitsCollection *FiberCoreHitCollection = nullptr;
+  EcalHitsCollection *FiberCladHitCollection = nullptr;
+  if (hitsCE){
+    CrystalHitCollection = (EcalHitsCollection *)(hitsCE->GetHC(fHitCollID[0]));
+    FiberCoreHitCollection = (EcalHitsCollection *)(hitsCE->GetHC(fHitCollID[1]));
+    FiberCladHitCollection = (EcalHitsCollection *)(hitsCE->GetHC(fHitCollID[2]));
+  }
 
-  if(HitCollection){
-    size_t n_hit = HitCollection->entries();
+  if(CrystalHitCollection){
+    size_t n_hit = CrystalHitCollection->entries();
+    //G4cout << " Read Crystal hits: " << n_hit << G4endl;
     for(size_t i=0; i<n_hit; i++){
-      G4int cellID = (*HitCollection)[i]->GetCellID();
-      EdepSum += (*HitCollection)[i]->GetEdep();
-      Nph_Cherenkov += (*HitCollection)[i]->GetNphChren();
-      Nph_Scint += (*HitCollection)[i]->GetNphScint();
+      G4int cellID = (*CrystalHitCollection)[i]->GetCellID();
+      EdepCrystal += (*CrystalHitCollection)[i]->GetEdep();
+      Nph_Cherenkov += (*CrystalHitCollection)[i]->GetNphChren();
+      Nph_Scint += (*CrystalHitCollection)[i]->GetNphScint();
 
-      fRunAction->Fill_vecCellID( (*HitCollection)[i]->GetCellID() );
-      fRunAction->Fill_vecEdep( (*HitCollection)[i]->GetEdep() );
-      fRunAction->Fill_vecNChren( (*HitCollection)[i]->GetNphChren() );
-      fRunAction->Fill_vecNScint( (*HitCollection)[i]->GetNphScint() );
+      fRunAction->Fill_vecCellID( (*CrystalHitCollection)[i]->GetCellID() );
+      fRunAction->Fill_vecEdep( (*CrystalHitCollection)[i]->GetEdep() );
+      fRunAction->Fill_vecNChren( (*CrystalHitCollection)[i]->GetNphChren() );
+      fRunAction->Fill_vecNScint( (*CrystalHitCollection)[i]->GetNphScint() );
+    }
+  }
+
+  if(FiberCoreHitCollection){
+    size_t n_hit = FiberCoreHitCollection->entries();
+    //G4cout << " Read Fiber Core Hits: " << n_hit << G4endl;
+    for(size_t i=0; i<n_hit; i++){
+      EdepFiberCore += (*FiberCoreHitCollection)[i]->GetEdep();
+    }
+  }
+
+  if(FiberCladHitCollection){
+    size_t n_hit = FiberCladHitCollection->entries();
+    //G4cout << " Read Fiber Cladding Hits: " << n_hit << G4endl;
+    for(size_t i=0; i<n_hit; i++){
+      EdepFiberClad += (*FiberCladHitCollection)[i]->GetEdep();
     }
   }
 
@@ -112,7 +140,9 @@ void MyEventAction::EndOfEventAction(const G4Event* event)
    //std::cout << " ==== FILL ntuple  event =  " << eventID << " " << captured << " " << backscattered << " " << traversed << std::endl;
    man5->FillNtupleIColumn( ntupleID, idx, eventID);  idx ++;
    man5->FillNtupleDColumn( ntupleID, idx, MCtruth_energy);  idx ++;
-   man5->FillNtupleDColumn( ntupleID, idx, EdepSum);  idx ++;
+   man5->FillNtupleDColumn( ntupleID, idx, EdepCrystal);  idx ++;
+   man5->FillNtupleDColumn( ntupleID, idx, EdepFiberCore);  idx ++;
+   man5->FillNtupleDColumn( ntupleID, idx, EdepFiberClad);  idx ++;
    man5->FillNtupleIColumn( ntupleID, idx, Nph_Cherenkov); idx ++;
    man5->FillNtupleIColumn( ntupleID, idx, Nph_Scint);  idx ++;
 
@@ -125,7 +155,9 @@ void MyEventAction::ResetEventData()
 {
   eventID = 0;
   MCtruth_energy = 0.;
-  EdepSum = 0.;
+  EdepCrystal = 0.;
+  EdepFiberCore = 0.;
+  EdepFiberClad = 0.;
   Nph_Cherenkov = 0;
   Nph_Scint = 0;
 }

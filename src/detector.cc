@@ -1,15 +1,16 @@
 #include "detector.hh"
 
 // Local parameters.
+// Same treatment for crystals, fiber cores and fiber claddings. 
 bool stopAndKillTracks = false;
 
 
 
 MySensitiveDetector::MySensitiveDetector(G4String name) : G4VSensitiveDetector(name), fHitCollection(nullptr), fHitIndex(0), fHitCID(-1) {
-  collectionName.insert("hits");
+  collectionName.insert(name + "_hits");
 }
 
-MySensitiveDetector::~MySensitiveDetector(){}
+MySensitiveDetector::~MySensitiveDetector(){ }
 
 void MySensitiveDetector::Initialize(G4HCofThisEvent *hitsCE){
   fHitCollection = new EcalHitsCollection();
@@ -20,6 +21,8 @@ void MySensitiveDetector::Initialize(G4HCofThisEvent *hitsCE){
   hitsCE->AddHitsCollection(fHitCID, fHitCollection);
   fHitIndex = 0;
   cellIDCol.clear();
+
+  //std::cout<<"In MySD: SD name " << this->GetName()<<", fHitCID "<<fHitCID<<", collection name "<<collectionName[0]<<std::endl;
 }
 
 
@@ -44,11 +47,11 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *ROhis
 
     G4int trackID = aTrack->GetTrackID(); 
     G4int parentID = aTrack->GetParentID();    
-    std::cout << " enter in MySensitiveDetector::ProcessHits  event = " << eventID << " trackID = " << trackID << std::endl;
-    std::cout << " Step particle name: " << particleName << ", process name " << CreatorprocessName << std::endl;
+    //std::cout << " enter in MySensitiveDetector::ProcessHits  event = " << eventID << " trackID = " << trackID << std::endl;
+    //std::cout << " Step particle name: " << particleName << ", process name " << CreatorprocessName << std::endl;
 
     G4int copyNo = aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber(0);
-    std::cout << "  Hit copy number: "<<copyNo << std::endl;
+    //std::cout << "  Step cell ID: "<<copyNo << std::endl;
 
     EcalHit* hit = nullptr;
     if(cellIDCol.find(copyNo) != cellIDCol.end()){
@@ -72,8 +75,8 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *ROhis
       fHitIndex++;
     }
 
-    std::cout <<"  Hit created. Current hit size: " << fHitCollection->entries() << std::endl;
-    std::cout << " exit from MySensitiveDetector::ProcessHits " << std::endl;
+    //std::cout <<"  Hit created. Current hit size: " << fHitCollection->entries() << std::endl;
+    //std::cout << " exit from MySensitiveDetector::ProcessHits " << std::endl;
     return true;
 }
 

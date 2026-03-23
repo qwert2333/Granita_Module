@@ -44,8 +44,14 @@ class G4Event;
 class MyEventAction : public G4UserEventAction
 {
   public:
-    MyEventAction() : fHitCollID(-1), fRunAction(nullptr) { ResetEventData(); }
-    MyEventAction(MyRunAction* runaction ) : fHitCollID(-1), fRunAction(runaction) { ResetEventData(); }
+    MyEventAction() : fRunAction(nullptr) { 
+      ResetEventData(); 
+      for (int i = 0; i < 3; ++i) fHitCollID[i] = -1;
+    }
+    MyEventAction(MyRunAction* runaction ) : fRunAction(runaction) { 
+      ResetEventData(); 
+      for (int i = 0; i < 3; ++i) fHitCollID[i] = -1;
+    }
     ~MyEventAction() override = default;
 
     void BeginOfEventAction(const G4Event*) override;
@@ -55,10 +61,12 @@ class MyEventAction : public G4UserEventAction
 
     private :
     MyRunAction* fRunAction; 
-    G4int fHitCollID; 
+    G4int fHitCollID[3]; 
     G4int eventID;
     G4double MCtruth_energy;
-    G4double EdepSum;
+    G4double EdepCrystal;
+    G4double EdepFiberCore;
+    G4double EdepFiberClad;
     G4int Nph_Cherenkov;
     G4int Nph_Scint;
 

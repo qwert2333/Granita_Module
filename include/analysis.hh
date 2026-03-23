@@ -35,7 +35,9 @@ private:
 
     G4int eventID;
     G4double MCtruth_energy;
-    G4double EdepSum;
+    G4double EdepCrystal;
+    G4double EdepFiberCore;
+    G4double EdepFiberClad;
     G4int Nph_Cherenkov;
     G4int Nph_Scint;
     

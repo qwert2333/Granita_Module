@@ -17,7 +17,9 @@ MyRunAction::MyRunAction()
     man2->CreateNtuple("eventTree", "eventTree");
     man2->CreateNtupleIColumn("eventID");
     man2->CreateNtupleDColumn("MCtruth_energy");
-    man2->CreateNtupleDColumn("EdepSum");
+    man2->CreateNtupleDColumn("EdepCrystal");
+    man2->CreateNtupleDColumn("EdepFiberCore");
+    man2->CreateNtupleDColumn("EdepFiberClad");
     man2->CreateNtupleIColumn("Nph_Cherenkov");
     man2->CreateNtupleIColumn("Nph_Scintillation");
     man2->CreateNtupleDColumn("Edep_Layer", Edep_Layer);
@@ -85,7 +87,9 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *PG): fPrimaryGen(PG)
     man2->CreateNtuple("eventTree", "eventTree");
     man2->CreateNtupleIColumn("eventID");
     man2->CreateNtupleDColumn("MCtruth_energy");
-    man2->CreateNtupleDColumn("EdepSum");
+    man2->CreateNtupleDColumn("EdepCrystal");
+    man2->CreateNtupleDColumn("EdepFiberCore");
+    man2->CreateNtupleDColumn("EdepFiberClad");
     man2->CreateNtupleIColumn("Nph_Cherenkov");
     man2->CreateNtupleIColumn("Nph_Scintillation");
     man2->CreateNtupleDColumn("Edep_Layer", Edep_Layer);
@@ -99,7 +103,7 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *PG): fPrimaryGen(PG)
     man2->FinishNtuple(0);
 }
 
-MyRunAction::~MyRunAction(){}
+MyRunAction::~MyRunAction(){ fPrimaryGen = nullptr; }
 
 void MyRunAction::BeginOfRunAction(const G4Run* run)
 {
@@ -127,20 +131,6 @@ void MyRunAction::BeginOfRunAction(const G4Run* run)
     }
     fileRun = TFile::Open(rootFileName, "RECREATE");
 
-    //Initialize Event tree
-    treeEvt = new TTree("treeEvt", "Info stored at Event level");
-    treeEvt->Branch("eventID", &eventID );
-    treeEvt->Branch("MCtruth_energy", &MCtruth_energy );
-    treeEvt->Branch("EdepSum", &EdepSum );
-    treeEvt->Branch("Nph_Cherenkov", &Nph_Cherenkov );
-    treeEvt->Branch("Nph_Scint", &Nph_Scint );
-    treeEvt->Branch("Edep_Layer", &Edep_Layer );
-    treeEvt->Branch("Nph_Cherenkov_Layer", &Nph_Cherenkov_Layer );
-    treeEvt->Branch("Nph_Scint_Layer", &Nph_Scint_Layer );
-    treeEvt->Branch("vecCellID", &vecCellID );
-    treeEvt->Branch("vecEdep", &vecEdep );
-    treeEvt->Branch("vecNChren", &vecNChren );
-    treeEvt->Branch("vecNScint", &vecNScint );
 */
 }
 
@@ -165,7 +155,9 @@ void MyRunAction::ResetEventData()
 {
   eventID = 0;
   MCtruth_energy = 0.;
-  EdepSum = 0.;
+  EdepCrystal = 0.;
+  EdepFiberCore = 0.;
+  EdepFiberClad = 0.;
   Nph_Cherenkov = 0;
   Nph_Scint = 0;
 
@@ -178,6 +170,3 @@ void MyRunAction::ResetEventData()
   vecNScint.clear();
 }
 
-//void MyRunAction::FillEvent(){
-//    treeEvt->Fill();
-//}

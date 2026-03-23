@@ -26,8 +26,8 @@
 //std::string particleType    = "proton" ;
 //std::string particleType    = "mu-" ;
 //std::string particleType = "e-";
-//std::string particleType = "gamma" ;
-std::string particleType = "mu-";
+std::string particleType = "gamma" ;
+//std::string particleType = "mu-";
 //std::string particleType = "pi-"  ;
 
 double productionCut        = 1e-1;           // mm, 0.7 by default, 1e-3
@@ -41,9 +41,9 @@ bool visualization          = false;
 
 //bool generalParticleSource  = false;   // unused I think...
 
-G4int initialNumberOfEvents = 1; 
+//G4int initialNumberOfEvents = 1; 
 //G4int initialNumberOfEvents = 10 ;
-//G4int initialNumberOfEvents = 1000 ;
+G4int initialNumberOfEvents = 1000 ;
 //G4int initialNumberOfEvents = 10000;
 //G4int initialNumberOfEvents = 100000;   // used for most simulations
 
@@ -140,10 +140,10 @@ int main(int argc, char** argv)
         UImanager->ApplyCommand("/run/beamOn " + std::to_string(initialNumberOfEvents)); 
         std::cout << " after beamOn " << std::endl;
 
-    if (ui){
+    if (visualization && ui){
         ui->SessionStart();
     }
 
-    //delete runManager;
+    delete runManager;
     return 0;
 }
