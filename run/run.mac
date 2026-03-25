@@ -1,6 +1,6 @@
 /random/setSeeds 123456 789012
 
-/run/numberOfThreads 1
+/run/numberOfThreads 5
 
 /run/setCut 0.1 mm
 
@@ -27,6 +27,6 @@
 
 
 # Run event number
-/run/beamOn 10000
+/run/beamOn 100
 
 

@@ -83,9 +83,9 @@ void MyEventAction::EndOfEventAction(const G4Event* event)
   // periodic printing
 
   G4int eventID = event->GetEventID();
-  //if (eventID < 100 || eventID % 100 == 0) {
-  //  G4cout << ">>> Event: " << eventID << G4endl;
-  //}
+  if (eventID < 100 || eventID % 100 == 0) {
+    G4cout << ">>> Event: " << eventID << G4endl;
+  }
 
   // G4cout << fHitCollID[0] << '\t' << fHitCollID[1] << '\t' << fHitCollID[2] << G4endl;
   // Extract MC info
