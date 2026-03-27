@@ -121,33 +121,33 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
         if ( volume != 0 ) postVol = volume ->GetName();
 
 
-        // if ( particleName == "opticalphoton") {
+        if ( particleName == "opticalphoton") {
 
 
-        //         if ( CreatorprocessName == "Cerenkov") {
-        //                 fEventAction -> increment_counter_Cerenkov() ;
-        //         }
-        //         else {
-        //                 fEventAction -> increment_counter_Scintillation() ;
-        //         }
+                if ( CreatorprocessName == "Cerenkov") {
+                        fEventAction -> increment_counter_Cerenkov() ;
+                }
+                else {
+                        fEventAction -> increment_counter_Scintillation() ;
+                }
 
 
-        //         // For scintillation photons only:
+                // For scintillation photons only:
 
-        //         if ( CreatorprocessName != "Cerenkov") { 
+                if ( CreatorprocessName != "Cerenkov") { 
 
-        //                 // Photons in the first 4 X0. Set X0 = 1.7 cm
-        //                 if ( zvtx < -200 + 4 * 17 ) {
-        //                         fEventAction -> add_nPhotons_4X0( 1. ) ;
-        //                 }
+                        // Photons in the first 4 X0. Set X0 = 1.7 cm
+                        //if ( zvtx < -200 + 4 * 17 ) {
+                        //        fEventAction -> add_nPhotons_4X0( 1. ) ;
+                        //}
 
-        //         }
+                }
 
 
-        // }
+        }
 
-        // int counter_Cerenkov = fEventAction ->get_counter_Cerenkov() ;
-        // int counter_Scintillation = fEventAction ->get_counter_Scintillation() ;
+        int counter_Cerenkov = fEventAction ->get_counter_Cerenkov() ;
+        int counter_Scintillation = fEventAction ->get_counter_Scintillation() ;
 
 
 
@@ -232,8 +232,8 @@ void MySteppingAction::UserSteppingAction(const G4Step* step)
                 man5->FillNtupleIColumn( ntupleID, idx, parentID);  idx ++;
                 man5->FillNtupleIColumn( ntupleID, idx, nSecondaries);     idx ++;
                 man5->FillNtupleDColumn( ntupleID, idx, EnergySecondaries);     idx ++;
-                //man5->FillNtupleIColumn( ntupleID, idx, counter_Cerenkov); idx ++;
-                //man5->FillNtupleIColumn( ntupleID, idx, counter_Scintillation);  idx ++;
+                man5->FillNtupleIColumn( ntupleID, idx, counter_Cerenkov); idx ++;
+                man5->FillNtupleIColumn( ntupleID, idx, counter_Scintillation);  idx ++;
                 man5->FillNtupleSColumn( ntupleID, idx, preVol);     idx ++;
                 man5->FillNtupleSColumn( ntupleID, idx, postVol);     idx ++;
 

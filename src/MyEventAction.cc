@@ -68,6 +68,21 @@ void MyEventAction::BeginOfEventAction(const G4Event* event) {
 
 }
 
+int MyEventAction::get_counter_Cerenkov() {
+    return counter_Cerenkov;
+}
+
+void MyEventAction::increment_counter_Cerenkov() {
+    counter_Cerenkov ++;
+}
+
+int MyEventAction::get_counter_Scintillation() {
+    return counter_Scintillation;
+}
+
+void MyEventAction::increment_counter_Scintillation() {
+    counter_Scintillation ++;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -165,6 +180,8 @@ void MyEventAction::EndOfEventAction(const G4Event* event)
    man5->FillNtupleDColumn( ntupleID, idx, EdepFiberClad);  idx ++;
    man5->FillNtupleIColumn( ntupleID, idx, Nph_Cherenkov); idx ++;
    man5->FillNtupleIColumn( ntupleID, idx, Nph_Scint);  idx ++;
+   man5->FillNtupleIColumn( ntupleID, idx, counter_Cerenkov); idx ++;
+   man5->FillNtupleIColumn( ntupleID, idx, counter_Scintillation);  idx ++;
 
    man5->AddNtupleRow( ntupleID);
 
@@ -187,6 +204,9 @@ void MyEventAction::ResetEventData()
   EdepFiberClad = 0.;
   Nph_Cherenkov = 0;
   Nph_Scint = 0;
+
+  counter_Scintillation = 0;
+  counter_Cerenkov = 0;
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

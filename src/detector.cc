@@ -59,7 +59,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *ROhis
       hit->addEdep(edep);
       if(particleName=="opticalphoton"){
         if(CreatorprocessName=="Cerenkov") hit->addNphChren(1); 
-        else hit->addNphScint(1);
+        else{ hit->addNphScint(1);}
       }
     }
     else{
@@ -67,7 +67,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *ROhis
       hit->setEdep(edep);
       if(particleName=="opticalphoton"){
         if(CreatorprocessName=="Cerenkov") hit->addNphChren(1);
-        else hit->addNphScint(1);
+        else{ hit->addNphScint(1);}
       }      
 
       fHitCollection->insert(hit);

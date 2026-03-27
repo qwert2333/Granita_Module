@@ -57,6 +57,12 @@ class MyEventAction : public G4UserEventAction
     void BeginOfEventAction(const G4Event*) override;
     void EndOfEventAction(const G4Event*) override;
 
+    int get_counter_Cerenkov();
+    void increment_counter_Cerenkov();
+
+    int get_counter_Scintillation();
+    void increment_counter_Scintillation();
+
     void ResetEventData(); 
 
     private :
@@ -77,6 +83,8 @@ class MyEventAction : public G4UserEventAction
     G4int Nph_Cherenkov;
     G4int Nph_Scint;
 
+    int counter_Cerenkov;
+    int counter_Scintillation ;
 };
 
 

@@ -32,6 +32,8 @@ MyRunAction::MyRunAction()
     man2->CreateNtupleDColumn("EdepFiberClad");
     man2->CreateNtupleIColumn("Nph_Cherenkov");
     man2->CreateNtupleIColumn("Nph_Scintillation");
+    man2->CreateNtupleIColumn("counter_Cerenkov");
+    man2->CreateNtupleIColumn("counter_Scintillation");
     man2->CreateNtupleDColumn("Edep_Layer", Edep_Layer);
     man2->CreateNtupleIColumn("Nph_Cherenkov_Layer", Nph_Cherenkov_Layer);
     man2->CreateNtupleIColumn("Nph_Scint_Layer", Nph_Scint_Layer);
@@ -110,6 +112,8 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *PG): fPrimaryGen(PG)
     man2->CreateNtupleDColumn("EdepFiberClad");
     man2->CreateNtupleIColumn("Nph_Cherenkov");
     man2->CreateNtupleIColumn("Nph_Scintillation");
+    man2->CreateNtupleIColumn("counter_Cerenkov");
+    man2->CreateNtupleIColumn("counter_Scintillation");
     man2->CreateNtupleDColumn("Edep_Layer", Edep_Layer);
     man2->CreateNtupleIColumn("Nph_Cherenkov_Layer", Nph_Cherenkov_Layer);
     man2->CreateNtupleIColumn("Nph_Scint_Layer", Nph_Scint_Layer);
@@ -119,6 +123,43 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *PG): fPrimaryGen(PG)
     man2->CreateNtupleIColumn("vecNScint", vecNScint );
 
     man2->FinishNtuple(0);
+
+    man2->CreateNtuple("steps","steps") ;
+    man2->CreateNtupleIColumn("eventID");
+    man2->CreateNtupleIColumn("trackID");
+    man2->CreateNtupleSColumn("particleName");
+    man2->CreateNtupleDColumn("kineticEnergy");
+    man2->CreateNtupleSColumn("processName");
+    man2->CreateNtupleSColumn("CreatorprocessName");
+    man2->CreateNtupleDColumn("stepEnergyDeposit");
+    man2->CreateNtupleDColumn("preStepPositionX");
+    man2->CreateNtupleDColumn("preStepPositionY");
+    man2->CreateNtupleDColumn("preStepPositionZ");
+    man2->CreateNtupleDColumn("postStepPositionX");
+    man2->CreateNtupleDColumn("postStepPositionY");
+    man2->CreateNtupleDColumn("postStepPositionZ");
+    man2->CreateNtupleDColumn("deltaEnergy");
+    man2->CreateNtupleDColumn("time");
+    man2->CreateNtupleDColumn("stepLength");
+    man2->CreateNtupleDColumn("trackLength");
+    man2->CreateNtupleDColumn("dEdx");
+    man2->CreateNtupleDColumn("nonIonizingEnergyDeposit");
+    man2->CreateNtupleIColumn("parentID");
+    man2->CreateNtupleIColumn("nSecondaries") ;
+    man2->CreateNtupleDColumn("EnergySecondaries");
+    man2->CreateNtupleIColumn("counter_Cerenkov");
+    man2->CreateNtupleIColumn("counter_Scintillation");
+    man2->CreateNtupleSColumn("preVol");
+    man2->CreateNtupleSColumn("postVol");
+    man2->CreateNtupleDColumn("xvtx");
+    man2->CreateNtupleDColumn("yvtx");
+    man2->CreateNtupleDColumn("zvtx");
+    man2->CreateNtupleDColumn("ax");
+    man2->CreateNtupleDColumn("ay");
+    man2->CreateNtupleDColumn("az");
+
+    man2->FinishNtuple(1);
+
 }
 
 MyRunAction::~MyRunAction(){ fPrimaryGen = nullptr; }

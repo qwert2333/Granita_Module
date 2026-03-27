@@ -59,15 +59,15 @@ void MyDetectorConstruction::DefineDim(G4GenericMessenger* fMessenger)
 {
 
     worldSize = 200 * cm;
-    xtal_x = 10*cm;
-    xtal_y = 10*cm;
+    xtal_x = 20*cm;
+    xtal_y = 20*cm;
     xtal_half_length = 21.04*cm;
     fiber_Radius = 0.5*mm;
     fiber_lendth = 2.*xtal_half_length + 1.*cm; //1 cm interface
     cladding_thick = 0.3*mm;
-    fiber_pitch = 15*mm;
-    fiber_nx = 13;
-    fiber_ny = 13;
+    fiber_pitch = 7*mm;
+    fiber_nx = 29;
+    fiber_ny = 29;
     nseg_z = 25;
 
     pmtRadius = 80.*mm;
