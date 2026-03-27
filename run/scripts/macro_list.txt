@@ -1,0 +1,10 @@
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch15_1GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch10_1GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch7_1GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch5_1GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch3_1GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch15_10GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch10_10GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch7_10GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch5_10GeV.mac
+/afs/cern.ch/user/f/faguo/eos_grainita/Granita_Module/run/macros/run_pitch3_10GeV.mac
